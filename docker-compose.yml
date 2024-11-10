@@ -1,0 +1,46 @@
+﻿version: "3.7"
+name: nut-shop-env
+services:
+  kafka:
+    image: confluentinc/confluent-local
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9101:9101"
+      - "29092:29092"
+      - "9092:9092"
+      - "8079:8079"
+    environment:
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      SCHEMA_REGISTRY_URL: http://localhost:8079
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: SSL://hostname2:9092
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_LISTENERS: http://localhost:8079
+      SCHEMA_REGISTRY_DEBUG: 'true'
+    networks:
+      - nuts-net
+  
+  postgres:
+    image: postgis/postgis:16-3.4-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nuts-net
+
+networks:
+  nut-net:
+    driver: bridge
+
+volumes:
+  db_data:
