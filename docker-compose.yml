@@ -39,7 +39,7 @@ services:
       - nuts-net
 
 networks:
-  nut-net:
+  nuts-net:
     driver: bridge
 
 volumes:
