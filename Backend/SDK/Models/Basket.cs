@@ -2,8 +2,8 @@ namespace SDK.Models;
 
 public class Basket
 {
-    public int BasketId { get; set; }
-    public int CustomerId { get; set; }
+    public Guid BasketId { get; set; }
+    public Guid CustomerId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
