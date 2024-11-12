@@ -1,10 +1,10 @@
 ﻿using SDK.Context;
 using SDK.Models;
 
-namespace GraphQLServer.Types.Mutations;
+namespace GraphQLServer.Mutations;
 
 [ExtendObjectType(OperationTypeNames.Mutation)]
-public class ProductMutation(YourNutsDbContext context)
+public class ProductMutations(YourNutsDbContext context)
 {
     public async Task<Product> AddProduct(AddProductInput input)
     {

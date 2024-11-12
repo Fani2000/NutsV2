@@ -1,5 +1,5 @@
-﻿using GraphQLServer.Types;
-using GraphQLServer.Types.Mutations;
+﻿using GraphQLServer.Mutations;
+using GraphQLServer.Types;
 using SDK.Context;
 
 namespace GraphQLServer.Extensions;
