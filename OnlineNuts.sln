@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK", "SDK\SDK.csproj", "{F5FB63A1-C3C5-4C30-B7E9-EF2D36CC6006}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK", "Backend\SDK\SDK.csproj", "{F5FB63A1-C3C5-4C30-B7E9-EF2D36CC6006}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "ProductService\ProductService.csproj", "{C4F47A9B-C8D3-438D-9C95-8185BF607EC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "Backend\ProductService\ProductService.csproj", "{C4F47A9B-C8D3-438D-9C95-8185BF607EC8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8F307EE3-36A8-493D-AB0E-DF4169998362}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "Backend\src", "{8F307EE3-36A8-493D-AB0E-DF4169998362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaSDK", "KafkaSDK\KafkaSDK.csproj", "{71EC11D2-F17A-4CF1-9A2A-AF02CF0FC881}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaSDK", "Backend\KafkaSDK\KafkaSDK.csproj", "{71EC11D2-F17A-4CF1-9A2A-AF02CF0FC881}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLServer", "GraphQLServer\GraphQLServer.csproj", "{C8120E28-CF60-4E87-B93C-3279B0DB01E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLServer", "Backend\GraphQLServer\GraphQLServer.csproj", "{C8120E28-CF60-4E87-B93C-3279B0DB01E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "OrderService\OrderService.csproj", "{922688F3-8487-4DF4-9EFD-0C291FCED2D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "Backend\OrderService\OrderService.csproj", "{922688F3-8487-4DF4-9EFD-0C291FCED2D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketService", "BasketService\BasketService.csproj", "{8A741CD8-195D-4A79-9F3F-CA25E3C9DB19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketService", "Backend\BasketService\BasketService.csproj", "{8A741CD8-195D-4A79-9F3F-CA25E3C9DB19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
