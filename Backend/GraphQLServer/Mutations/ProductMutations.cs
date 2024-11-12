@@ -10,6 +10,7 @@ public class ProductMutations(YourNutsDbContext context)
     {
         var product = new Product
         {
+            ProductId = Guid.NewGuid(),
             Name = input.Name,
             Description = input.Description,
             Price = input.Price,
@@ -73,7 +74,7 @@ public class AddProductInput
 
 public class UpdateProductInput
 {
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal? Price { get; set; }
