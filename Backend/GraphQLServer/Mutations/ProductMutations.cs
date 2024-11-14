@@ -6,6 +6,7 @@ namespace GraphQLServer.Mutations;
 [ExtendObjectType(OperationTypeNames.Mutation)]
 public class ProductMutations(YourNutsDbContext context)
 {
+    [UseMutationConvention]
     public async Task<Product> AddProduct(AddProductInput input)
     {
         var product = new Product
@@ -15,6 +16,7 @@ public class ProductMutations(YourNutsDbContext context)
             Description = input.Description,
             Price = input.Price,
             StockQuantity = input.StockQuantity,
+            Image = input.Image,
             Category = input.Category,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
@@ -26,6 +28,7 @@ public class ProductMutations(YourNutsDbContext context)
         return product;
     }
     
+    [UseMutationConvention]
     public async Task<Product> UpdateProduct(UpdateProductInput input)
     {
         var product = await context.Products.FindAsync(input.ProductId);
@@ -37,6 +40,7 @@ public class ProductMutations(YourNutsDbContext context)
         product.Name = input.Name ?? product.Name;
         product.Description = input.Description ?? product.Description;
         product.Price = input.Price ?? product.Price;
+        product.Image = input.Image ?? product.Image;
         product.StockQuantity = input.StockQuantity ?? product.StockQuantity;
         product.Category = input.Category ?? product.Category;
         product.UpdatedAt = DateTime.UtcNow;
@@ -47,6 +51,7 @@ public class ProductMutations(YourNutsDbContext context)
         return product;
     }
     
+    [UseMutationConvention]
     public async Task<bool> DeleteProduct(int productId)
     {
         var product = await context.Products.FindAsync(productId);
@@ -70,6 +75,7 @@ public class AddProductInput
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public string Category { get; set; }
+    public string Image{ get; set; }
 }
 
 public class UpdateProductInput
@@ -79,6 +85,8 @@ public class UpdateProductInput
     public string Description { get; set; }
     public decimal? Price { get; set; }
     public int? StockQuantity { get; set; }
-    public string Category { get; set; }
+    public string? Category { get; set; }
+    
+    public string? Image{ get; set; }
 }
 
