@@ -1,0 +1,24 @@
+query Products {
+  products {
+    nodes {
+      category
+      createdAt
+      description
+      image
+      name
+      price
+      productId
+      stockQuantity
+      updatedAt
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+    }
+  }
+}

@@ -1,0 +1,22 @@
+query Orders {
+  orders {
+    nodes {
+      createdAt
+      customerId
+      orderDate
+      orderId
+      status
+      totalAmount
+      updatedAt
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    edges {
+      cursor
+    }
+  }
+}

@@ -1,0 +1,37 @@
+mutation AddProduct($input: AddProductInput!) {
+  addProduct(input: $input) {
+    product {
+      category
+      createdAt
+      description
+      image
+      name
+      price
+      productId
+      stockQuantity
+      updatedAt
+    }
+  }
+}
+
+mutation UpdateProduct($input: UpdateProductInput!) {
+  updateProduct(input: $input) {
+    product {
+      category
+      createdAt
+      description
+      image
+      name
+      price
+      productId
+      stockQuantity
+      updatedAt
+    }
+  }
+}
+
+mutation DeleteProduct($input: DeleteProductInput!) {
+  deleteProduct(input: $input) {
+    boolean
+  }
+}
