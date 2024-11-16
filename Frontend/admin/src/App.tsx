@@ -16,7 +16,7 @@ import SignUp from './pages/Authentication/SignUp';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Settings from './pages/Settings';
 import DefaultLayout from './layout/DefaultLayout';
-import {  useProductsQuery } from './gql/graphql';
+// import {  useProductsQuery } from './gql/graphql';
 import Orders from './pages/Management/Orders';
 import Product from './pages/Management/Product';
 import Customers from './pages/Management/Customers';

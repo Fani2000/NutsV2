@@ -1,19 +1,27 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { useState } from "react";
 import TableTwo from "../../components/Tables/TableTwo";
 import { useProductsQuery } from "../../gql/graphql";
+import { Button } from "@material-tailwind/react";
+import { ProductDialog } from "../../components/Management/Products/ProductDialog";
 
 const Product = () => {
   const { data, refetch, loading, error } = useProductsQuery();
+  const [openDialog, setOpenDialog] = useState(false)
+  // console.log(data)
+
+  const handleClick = () => {
+    console.log("Open dialog")
+    setOpenDialog(!openDialog)
+  }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <h3 className="text-xl text-bold">Management | Products </h3>
+      <ProductDialog setIsOpen={handleClick} isOpen={openDialog} />
       <div className="flex justify-end">
-        <Link
-          to="#"
-          className="inline-flex items-center justify-center gap-2.5 bg-primary py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-        >
-          <span>
+        <Button size="sm" onClick={handleClick} color="blue" >
+          <span className="flex gap-2 items-center" size='md'>
             <svg
               width="24px"
               height="24px"
@@ -22,7 +30,7 @@ const Product = () => {
               fill="#ffffff"
               stroke="#ffffff"
             >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_bgCarrier"></g>
               <g id="SVGRepo_tracerCarrier"></g>
               <g id="SVGRepo_iconCarrier">
                 {" "}
@@ -54,9 +62,9 @@ const Product = () => {
                 </g>{" "}
               </g>
             </svg>
+            Product
           </span>
-          Add Product
-        </Link>
+        </Button>
       </div>
       {loading ? <div>Loading</div> : <TableTwo key={Date.now()} />}
     </div>
