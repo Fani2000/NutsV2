@@ -16,10 +16,13 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
+import { useAddProductMutation, useProductsQuery } from './gql/graphql';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
+ const { data } = useProductsQuery()
+ console.log("Data: ", data)
 
   useEffect(() => {
     window.scrollTo(0, 0);
