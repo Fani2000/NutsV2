@@ -858,6 +858,11 @@ export type OrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type OrdersQuery = { __typename?: 'Query', orders?: { __typename?: 'OrdersConnection', nodes?: Array<{ __typename?: 'Order', createdAt: any, customerId: any, orderDate: any, orderId: any, status: string, totalAmount: any, updatedAt: any }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, edges?: Array<{ __typename?: 'OrdersEdge', cursor: string }> | null } | null };
 
+export type GetOrdersApiQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOrdersApiQuery = { __typename?: 'Query', orders?: { __typename?: 'OrdersConnection', nodes?: Array<{ __typename?: 'Order', orderDate: any, status: string, totalAmount: any, updatedAt: any, orderItems: Array<{ __typename?: 'OrderItem', product: { __typename?: 'Product', name: string } }>, customer: { __typename?: 'Customer', name: string } }> | null } | null };
+
 export type AddProductMutationVariables = Exact<{
   input: AddProductInput;
 }>;
@@ -941,6 +946,58 @@ export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>;
 export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>;
 export type OrdersSuspenseQueryHookResult = ReturnType<typeof useOrdersSuspenseQuery>;
 export type OrdersQueryResult = Apollo.QueryResult<OrdersQuery, OrdersQueryVariables>;
+export const GetOrdersApiDocument = gql`
+    query GetOrdersApi {
+  orders {
+    nodes {
+      orderDate
+      orderItems {
+        product {
+          name
+        }
+      }
+      status
+      totalAmount
+      updatedAt
+      customer {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetOrdersApiQuery__
+ *
+ * To run a query within a React component, call `useGetOrdersApiQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrdersApiQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrdersApiQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetOrdersApiQuery(baseOptions?: Apollo.QueryHookOptions<GetOrdersApiQuery, GetOrdersApiQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrdersApiQuery, GetOrdersApiQueryVariables>(GetOrdersApiDocument, options);
+      }
+export function useGetOrdersApiLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrdersApiQuery, GetOrdersApiQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrdersApiQuery, GetOrdersApiQueryVariables>(GetOrdersApiDocument, options);
+        }
+export function useGetOrdersApiSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetOrdersApiQuery, GetOrdersApiQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetOrdersApiQuery, GetOrdersApiQueryVariables>(GetOrdersApiDocument, options);
+        }
+export type GetOrdersApiQueryHookResult = ReturnType<typeof useGetOrdersApiQuery>;
+export type GetOrdersApiLazyQueryHookResult = ReturnType<typeof useGetOrdersApiLazyQuery>;
+export type GetOrdersApiSuspenseQueryHookResult = ReturnType<typeof useGetOrdersApiSuspenseQuery>;
+export type GetOrdersApiQueryResult = Apollo.QueryResult<GetOrdersApiQuery, GetOrdersApiQueryVariables>;
 export const AddProductDocument = gql`
     mutation AddProduct($input: AddProductInput!) {
   addProduct(input: $input) {
