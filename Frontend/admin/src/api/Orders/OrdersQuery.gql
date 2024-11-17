@@ -25,6 +25,7 @@ query GetOrdersApi {
   orders {
     nodes {
       orderDate
+      orderId
       orderItems {
         product {
           name

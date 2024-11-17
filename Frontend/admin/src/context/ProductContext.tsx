@@ -1,18 +1,21 @@
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, ReactNode, useContext, useState } from "react";
 import { type Product } from "../types/product";
 
-type ProductContextTypes = {
+type ProductContextType = {
   products?: Product[];
-  showAddDialog: boolean;
-  showEditDialog: boolean;
+  isAddDialogVisible: boolean;
+  isEditDialogVisible: boolean;
   selectedProduct: Product | null;
-  initializeProducts: (proudcts: Product[]) => void;
-  toggleAddDialog:() => void;
-  toggleEditDialog:() => void;
-  AddProduct: (product: Product) => void;
+  initializeProducts: (products: Product[]) => void;
+  toggleAddDialog: () => void;
+  toggleEditDialog: () => void;
+  addProduct: (product: Product) => void;
+  removeProduct: (id: string) => void;
+  updateProduct: (product: Product) => void;
+  selectProduct: (product: Product) => void;
 };
 
-export const ProductContext = createContext<ProductContextTypes | null>(null);
+export const ProductContext = createContext<ProductContextType | null>(null);
 
 export const useProductContext = () => {
   const context = useContext(ProductContext);
@@ -24,53 +27,59 @@ export const useProductContext = () => {
   return context;
 };
 
-export const ProductProvider: FC<any> = (props) => {
-  const [products, setProducts] = useState<Product[] >([]);
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [selectedProduct, setProduct] = useState(null);
+export const ProductProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isAddDialogVisible, setAddDialogVisible] = useState(false);
+  const [isEditDialogVisible, setEditDialogVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  function initializeProducts(products: any[]) {
+  const initializeProducts = (products: any[]) => {
     setProducts(products);
-  }
+  };
 
-  function toggleAddDialog() {
-    setShowAddDialog(!showAddDialog);
-  }
+  const toggleAddDialog = () => {
+    setAddDialogVisible(!isAddDialogVisible);
+  };
 
-  function toggleEditDialog() {
-    setShowEditDialog(!showEditDialog);
-  }
-
-  function AddProduct(product: any) {
-    setProducts([...products, product]);
-  }
-
-  function removeProduct(product: any) {
-    // Logic to remove the product
-    return product;
-  }
-  function updateProduct(product: any) {
-    // this.products?.push(product);
-    // Logic to update the product
-    return product;
-  }
+  const toggleEditDialog = () => {
+    setEditDialogVisible(!isEditDialogVisible);
+  };
+  
+  const addProduct = (product: Product) => {
+    setProducts(prevProducts => [...prevProducts, product]);
+  };
+  
+  const removeProduct = (id: string) => {
+    setProducts(prevProducts => prevProducts.filter(p => p.id !== id));
+  };
+  const updateProduct = (updatedProduct: Product) => {
+    setProducts(prevProducts =>
+      prevProducts.map(product =>
+        product.id === updatedProduct.id ? updatedProduct : product
+      )
+    );
+  };
+  const selectProduct = (product: Product) => {
+    setSelectedProduct(product);
+  };
 
   return (
     <ProductContext.Provider
       value={{
-        products,
-        showAddDialog,
-        showEditDialog,
+        isAddDialogVisible,
+        isEditDialogVisible,
         selectedProduct,
+        products,
         initializeProducts,
         toggleAddDialog,
         toggleEditDialog,
-        AddProduct
+        addProduct,
+        removeProduct,
+      updateProduct,
+      selectProduct,
       }}
     >
-      {props.children}
+      {children}
     </ProductContext.Provider>
   );
 };
-

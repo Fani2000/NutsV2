@@ -1,4 +1,5 @@
-export type Package = {
+export type order = {
+  id: string;
   name: string;
   price: number;
   invoiceDate: string;

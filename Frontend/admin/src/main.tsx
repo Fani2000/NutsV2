@@ -9,6 +9,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import App from "./App";
 import { ThemeProvider } from "@material-tailwind/react";
 import { ProductProvider } from "./context/ProductContext";
+import {OrderProvider} from "./context/OrderContext.tsx";
 
 const client = new ApolloClient({
   uri: "http://localhost:8002/graphql",
@@ -18,14 +19,15 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ProductProvider>
-      <ThemeProvider>
-        <Router>
-          <ApolloProvider client={client}>
-            <App />
-          </ApolloProvider>
-          ,
-        </Router>
-      </ThemeProvider>
+      <OrderProvider>
+        <ThemeProvider>
+            <Router>
+              <ApolloProvider client={client}>
+                <App />
+              </ApolloProvider>
+            </Router>
+        </ThemeProvider>
+      </OrderProvider>
     </ProductProvider>
   </React.StrictMode>
 );

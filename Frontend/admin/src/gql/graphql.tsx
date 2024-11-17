@@ -861,7 +861,7 @@ export type OrdersQuery = { __typename?: 'Query', orders?: { __typename?: 'Order
 export type GetOrdersApiQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetOrdersApiQuery = { __typename?: 'Query', orders?: { __typename?: 'OrdersConnection', nodes?: Array<{ __typename?: 'Order', orderDate: any, status: string, totalAmount: any, updatedAt: any, orderItems: Array<{ __typename?: 'OrderItem', product: { __typename?: 'Product', name: string } }>, customer: { __typename?: 'Customer', name: string } }> | null } | null };
+export type GetOrdersApiQuery = { __typename?: 'Query', orders?: { __typename?: 'OrdersConnection', nodes?: Array<{ __typename?: 'Order', orderDate: any, orderId: any, status: string, totalAmount: any, updatedAt: any, orderItems: Array<{ __typename?: 'OrderItem', product: { __typename?: 'Product', name: string } }>, customer: { __typename?: 'Customer', name: string } }> | null } | null };
 
 export type AddProductMutationVariables = Exact<{
   input: AddProductInput;
@@ -951,6 +951,7 @@ export const GetOrdersApiDocument = gql`
   orders {
     nodes {
       orderDate
+      orderId
       orderItems {
         product {
           name
