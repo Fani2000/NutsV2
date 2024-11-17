@@ -3,6 +3,7 @@ import OrdersTable from "../../components/Tables/TableThree";
 import { useGetOrdersApiQuery } from "../../gql/graphql";
 import { Package } from "../../types/package";
 import { Button } from "@material-tailwind/react";
+import { OrderTable } from "../../components/Management/Orders/OrderTable";
 
 const Orders = () => {
   const { data, refetch, loading, error } = useGetOrdersApiQuery();
@@ -34,9 +35,7 @@ const Orders = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-xl text-bold">Management | Orders </h3>
-      <div className="flex justify-end">
-        <Button onClick={handleClick} color="blue" >
+        {/* <Button onClick={handleClick} color="blue" >
           <span className="flex gap-2 items-center" size='md'>
             <svg
               width="24px"
@@ -81,11 +80,11 @@ const Orders = () => {
             Order
           </span>
         </Button>
-      </div>
+      </div> */}
       {loading ? (
         <div>Loading</div>
       ) : (
-        <OrdersTable packages={orders} key={Date.now()} />
+        <OrderTable />
       )}
     </div>
   );

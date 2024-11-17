@@ -1,72 +1,63 @@
-// import { Link } from "react-router-dom";
-import { useState } from "react";
-import TableTwo from "../../components/Tables/TableTwo";
+import { useContext, useEffect, useState } from "react";
 import { useProductsQuery } from "../../gql/graphql";
-import { Button } from "@material-tailwind/react";
 import { ProductDialog } from "../../components/Management/Products/ProductDialog";
+import { ProductTable } from "../../components/Management/Products/ProductTable";
+import  { type Product } from "../../types/product";
+import ProductOne from "../../images/product/product-01.png";
+import ProductTwo from "../../images/product/product-02.png";
+import ProductThree from "../../images/product/product-03.png";
+import ProductFour from "../../images/product/product-04.png";
+import { ProductContext, useProductContext } from "../../context/ProductContext";
+
+const productData: Product[] = [
+  {
+    image: ProductOne,
+    name: "Apple Watch Series 7",
+    category: "Electronics",
+    price: 296,
+    sold: 22,
+    profit: 45,
+  },
+  {
+    image: ProductTwo,
+    name: "Macbook Pro M1",
+    category: "Electronics",
+    price: 546,
+    sold: 12,
+    profit: 125,
+  },
+  {
+    image: ProductThree,
+    name: "Dell Inspiron 15",
+    category: "Electronics",
+    price: 443,
+    sold: 64,
+    profit: 247,
+  },
+  {
+    image: ProductFour,
+    name: "HP Probook 450",
+    category: "Electronics",
+    price: 499,
+    sold: 72,
+    profit: 103,
+  },
+];
 
 const Product = () => {
   const { data, refetch, loading, error } = useProductsQuery();
-  const [openDialog, setOpenDialog] = useState(false)
-  // console.log(data)
+  const context  = useProductContext()
 
-  const handleClick = () => {
-    console.log("Open dialog")
-    setOpenDialog(!openDialog)
-  }
+  console.log(data)
+
+  useEffect(() => {
+    context?.initializeProducts(productData)
+  }, [context?.products])
 
   return (
     <div className="flex flex-col gap-1">
-      <h3 className="text-xl text-bold">Management | Products </h3>
-      <ProductDialog setIsOpen={handleClick} isOpen={openDialog} />
-      <div className="flex justify-end">
-        <Button size="sm" onClick={handleClick} color="blue" >
-          <span className="flex gap-2 items-center" size='md'>
-            <svg
-              width="24px"
-              height="24px"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#ffffff"
-              stroke="#ffffff"
-            >
-              <g id="SVGRepo_bgCarrier"></g>
-              <g id="SVGRepo_tracerCarrier"></g>
-              <g id="SVGRepo_iconCarrier">
-                {" "}
-                <title></title>{" "}
-                <g id="Complete">
-                  {" "}
-                  <g data-name="add" id="add-2">
-                    {" "}
-                    <g>
-                      {" "}
-                      <line
-                        fill="none"
-                        stroke="#ffffff"
-                        x1="12"
-                        x2="12"
-                        y1="19"
-                        y2="5"
-                      ></line>{" "}
-                      <line
-                        fill="none"
-                        stroke="#ffffff"
-                        x1="5"
-                        x2="19"
-                        y1="12"
-                        y2="12"
-                      ></line>{" "}
-                    </g>{" "}
-                  </g>{" "}
-                </g>{" "}
-              </g>
-            </svg>
-            Product
-          </span>
-        </Button>
-      </div>
-      {loading ? <div>Loading</div> : <TableTwo key={Date.now()} />}
+      <ProductDialog  />
+      <ProductTable  />
     </div>
   );
 };
