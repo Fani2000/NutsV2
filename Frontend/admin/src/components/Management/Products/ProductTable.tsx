@@ -19,8 +19,6 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 
-import { Product } from "../../../types/product";
-import { FC } from "react";
 import { useProductContext } from "../../../context/ProductContext";
 
 const TABS = [
@@ -185,7 +183,7 @@ export const ProductTable = () => {
                         R {profit.toFixed(2)}
                       </Typography>
                     </td>
-                    <td className={classes}>
+                    <td className={classes + ' w-[115px]'}>
                       <Tooltip content="Edit product">
                         <IconButton placeholder={null} variant="text">
                           <PencilIcon className="h-4 w-4" />

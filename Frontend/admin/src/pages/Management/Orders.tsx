@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import OrdersTable from "../../components/Tables/TableThree";
+// import OrdersTable from "../../components/Tables/TableThree";
 import { useGetOrdersApiQuery } from "../../gql/graphql";
 import { Package } from "../../types/package";
-import { Button } from "@material-tailwind/react";
+// import { Button } from "@material-tailwind/react";
 import { OrderTable } from "../../components/Management/Orders/OrderTable";
 
 const Orders = () => {

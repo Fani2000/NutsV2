@@ -28,12 +28,12 @@ const TABS = [
     value: "all",
   },
   {
-    label: "Popular",
-    value: "popular",
+    label: "Shipped",
+    value: "shipped",
   },
   {
-    label: "Unpopular",
-    value: "unpopular",
+    label: "Unshipped",
+    value: "unshipped",
   },
 ];
 
