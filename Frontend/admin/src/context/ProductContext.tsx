@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import { createContext, FC, ReactNode, useContext, useEffect, useState } from "react";
 import { type Product } from "../types/product";
 
 type ProductContextType = {
@@ -32,6 +32,8 @@ export const ProductProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isAddDialogVisible, setAddDialogVisible] = useState(false);
   const [isEditDialogVisible, setEditDialogVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  useEffect(() => {})
 
   const initializeProducts = (products: any[]) => {
     setProducts(products);

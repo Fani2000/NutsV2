@@ -18,7 +18,7 @@ const client = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ProductProvider>
+    {/* <ProductProvider> */}
       <OrderProvider>
         <ThemeProvider>
             <Router>
@@ -28,6 +28,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             </Router>
         </ThemeProvider>
       </OrderProvider>
-    </ProductProvider>
+    {/* </ProductProvider> */}
   </React.StrictMode>
 );

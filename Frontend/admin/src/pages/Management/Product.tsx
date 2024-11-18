@@ -11,6 +11,7 @@ import { ProductContext, useProductContext } from "../../context/ProductContext"
 
 const productData: Product[] = [
   {
+    id: "2fdfdf",
     image: ProductOne,
     name: "Apple Watch Series 7",
     category: "Electronics",
@@ -19,6 +20,7 @@ const productData: Product[] = [
     profit: 45,
   },
   {
+    id: "2fdfdf",
     image: ProductTwo,
     name: "Macbook Pro M1",
     category: "Electronics",
@@ -27,6 +29,7 @@ const productData: Product[] = [
     profit: 125,
   },
   {
+    id: "2fdfdf",
     image: ProductThree,
     name: "Dell Inspiron 15",
     category: "Electronics",
@@ -35,6 +38,7 @@ const productData: Product[] = [
     profit: 247,
   },
   {
+    id: "2fdfdf",
     image: ProductFour,
     name: "HP Probook 450",
     category: "Electronics",

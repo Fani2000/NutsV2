@@ -1,9 +1,7 @@
 import {
   MagnifyingGlassIcon,
   PlusIcon,
-  TrashIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon } from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
@@ -15,12 +13,9 @@ import {
   Tabs,
   TabsHeader,
   Tab,
-  IconButton,
-  Tooltip,
 } from "@material-tailwind/react";
 
-import { FC, useState } from "react";
-import { Package } from "../../../types/package";
+import {useOrderContext} from "../../../context/OrderContext.tsx";
 
 const TABS = [
   {
@@ -47,7 +42,9 @@ const TABLE_HEAD = [
 ];
 
 export const OrderTable = () => {
-  const [orders, setOrders] = useState<Package[]>([]);
+  // const [orders, setOrders] = useState<Package[]>([])
+  const { orders } = useOrderContext();
+
 
   return (
     <Card placeholder={null} className="h-full w-full">
@@ -128,13 +125,8 @@ export const OrderTable = () => {
           <tbody>
             {orders?.map(
               ({ name, price, invoiceDate, status, customerName }, index) => {
-                const isLast = index === orders.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
-
                 return (
-                  <tr key={name + Date.now()}>
+                  <tr key={index}>
                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                       <h5 className="font-medium text-black dark:text-white">
                         {name}

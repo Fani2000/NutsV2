@@ -12,6 +12,9 @@ const Orders = () => {
     if (!loading) handleGetOrders();
   }, [loading]);
 
+  useEffect(() => {
+    console.log(orders)
+  }, [orders]);
   const handleGetOrders = async () => {
     const orders_: order[] = [];
     data?.orders?.nodes?.map((x) => {
@@ -25,8 +28,7 @@ const Orders = () => {
       }
       orders_.push(o);
     });
-
-    console.log(orders_, orders)
+    
     initializeOrders(orders_)
   };
 

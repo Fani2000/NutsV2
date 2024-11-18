@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, FC, ReactNode} from 'react';
+import {createContext, useContext, useState, FC, ReactNode, useEffect} from 'react';
 import { type order } from '../types/order';
 
 type OrderContextType = {
@@ -16,6 +16,19 @@ const OrderProvider: FC<{children: ReactNode}> = ({ children }) => {
   const [isAddOrderDialogVisible, setAddOrderDialogVisible] = useState<boolean>(false);
   const [orders, setOrders] = useState<order[]>([]);
 
+  useEffect(() => {
+    setOrders([
+      {
+        id: "1",
+        customerName: "John Doe",
+        price: 10,
+        name: "Welcome",
+        invoiceDate: Date.now().toString(),
+        status: "pending"
+      }
+    ])
+  }, [setOrders])
+
   const addOrder = (order: order) => {
     setOrders([...orders, order]);
   };
@@ -24,8 +37,8 @@ const OrderProvider: FC<{children: ReactNode}> = ({ children }) => {
     setOrders(orders.map(order => order.id === id ? { ...order, status } : order));
   };
 
-  const initializeOrders = (orders: order[]) => {
-    setOrders(orders);
+  const initializeOrders = (o: order[]) => {
+    setOrders(prev => [...prev, ...o]);
   };
 
   const toggleAddOrderDialog = () => {
