@@ -30,7 +30,7 @@ const Orders = () => {
       orders_.push(o);
     });
     
-    initializeOrders(orders_)
+    if(orders.length < 2) initializeOrders(orders_)
   };
 
   return (
