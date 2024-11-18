@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect  } from "react";
 import { useProductsQuery } from "../../gql/graphql";
 import { ProductDialog } from "../../components/Management/Products/ProductDialog";
 import { ProductTable } from "../../components/Management/Products/ProductTable";
@@ -7,7 +7,7 @@ import ProductOne from "../../images/product/product-01.png";
 import ProductTwo from "../../images/product/product-02.png";
 import ProductThree from "../../images/product/product-03.png";
 import ProductFour from "../../images/product/product-04.png";
-import { ProductContext, useProductContext } from "../../context/ProductContext";
+import {  useProductContext } from "../../context/ProductContext";
 
 const productData: Product[] = [
   {
@@ -49,7 +49,7 @@ const productData: Product[] = [
 ];
 
 const Product = () => {
-  const { data, refetch, loading, error } = useProductsQuery();
+  const { data } = useProductsQuery();
   const context  = useProductContext()
 
   console.log(data)

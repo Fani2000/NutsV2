@@ -5,9 +5,9 @@ import SignIn from '../pages/Authentication/SignIn';
 import SignUp from '../pages/Authentication/SignUp';
 import ECommerce from '../pages/Dashboard/ECommerce';
 import Settings from '../pages/Settings';
-import Orders from '../pages/Management/Orders';
-import Product from '../pages/Management/Product';
-import Customers from '../pages/Management/Customers';
+import Orders from '../pages/Management/OrdersPage';
+import Product from '../pages/Management/ProductPage';
+import Customers from '../pages/Management/CustomersPage';
 import { Services } from '../pages/Services';
 
 export const RouterConfigs = () => {

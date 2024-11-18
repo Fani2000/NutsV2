@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { OrderDialog } from "../../components/Management/Orders/OrderDialog";
 import { useOrderContext } from "../../context/OrderContext";
 import { useGetOrdersApiQuery } from "../../gql/graphql";
 import { order } from "../../types/order";
@@ -15,7 +16,7 @@ const Orders = () => {
   useEffect(() => {
     console.log(orders)
   }, [orders]);
-  const handleGetOrders = async () => {
+  const handleGetOrders = () => {
     const orders_: order[] = [];
     data?.orders?.nodes?.map((x) => {
       const o:order = {
@@ -34,6 +35,7 @@ const Orders = () => {
 
   return (
     <div className="flex flex-col gap-2">
+      <OrderDialog />
       {loading ? <div>Loading</div> : <OrderTable />}
     </div>
   );

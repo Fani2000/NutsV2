@@ -15,7 +15,7 @@ type ProductContextType = {
   selectProduct: (product: Product) => void;
 };
 
-export const ProductContext = createContext<ProductContextType | null>(null);
+export const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const useProductContext = () => {
   const context = useContext(ProductContext);

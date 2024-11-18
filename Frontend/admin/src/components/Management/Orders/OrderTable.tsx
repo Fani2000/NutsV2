@@ -43,7 +43,7 @@ const TABLE_HEAD = [
 
 export const OrderTable = () => {
   // const [orders, setOrders] = useState<Package[]>([])
-  const { orders } = useOrderContext();
+  const { orders, toggleAddOrderDialog } = useOrderContext();
 
 
   return (
@@ -75,7 +75,7 @@ export const OrderTable = () => {
               placeholder={null}
               className="flex items-center gap-3"
               size="sm"
-              //   onClick={() => toggleAddDialog()}
+              onClick={() => toggleAddOrderDialog()}
             >
               <PlusIcon strokeWidth={2} className="h-4 w-4" /> Order
             </Button>

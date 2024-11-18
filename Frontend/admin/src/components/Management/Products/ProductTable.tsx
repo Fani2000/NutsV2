@@ -46,8 +46,7 @@ const TABLE_HEAD = [
 ];
 
 export const ProductTable = () => {
-  const context = useProductContext();
-  const { toggleAddDialog, products } = context!;
+  const { toggleAddDialog, products } = useProductContext();
 
   return (
     <Card placeholder={null} className="h-full w-full">
