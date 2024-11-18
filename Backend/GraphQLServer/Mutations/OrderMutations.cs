@@ -6,15 +6,8 @@ namespace GraphQLServer.Mutations;
 [ExtendObjectType(OperationTypeNames.Mutation)]
 public class OrderMutations
 {
-    private readonly YourNutsDbContext _context;
-
-    public OrderMutations(YourNutsDbContext context)
-    {
-        _context = context;
-    }
-
     [UseMutationConvention]
-    public async Task<Order> AddOrder(AddOrderInput input)
+    public async Task<Order> AddOrder([Service] YourNutsDbContext context, AddOrderInput input)
     {
         var order = new Order
         {
@@ -28,16 +21,16 @@ public class OrderMutations
             OrderItems = input.OrderItems // assume that input.OrderItems is a collection of OrderItem
         };
 
-        _context.Orders.Add(order);
-        await _context.SaveChangesAsync();
+        context.Orders.Add(order);
+        await context.SaveChangesAsync();
 
         return order;
     }
 
     [UseMutationConvention]
-    public async Task<Order> UpdateOrder(UpdateOrderInput input)
+    public async Task<Order> UpdateOrder([Service] YourNutsDbContext context,UpdateOrderInput input)
     {
-        var order = await _context.Orders.FindAsync(input.OrderId);
+        var order = await context.Orders.FindAsync(input.OrderId);
         if (order == null)
         {
             throw new Exception("Order not found");
@@ -51,23 +44,23 @@ public class OrderMutations
         order.OrderItems = input.OrderItems ?? order.OrderItems;
         order.UpdatedAt = DateTime.UtcNow;
 
-        _context.Orders.Update(order);
-        await _context.SaveChangesAsync();
+        context.Orders.Update(order);
+        await context.SaveChangesAsync();
 
         return order;
     }
 
     [UseMutationConvention]
-    public async Task<bool> DeleteOrder(Guid orderId)
+    public async Task<bool> DeleteOrder([Service] YourNutsDbContext context,Guid orderId)
     {
-        var order = await _context.Orders.FindAsync(orderId);
+        var order = await context.Orders.FindAsync(orderId);
         if (order == null)
         {
             throw new Exception("Order not found");
         }
 
-        _context.Orders.Remove(order);
-        await _context.SaveChangesAsync();
+        context.Orders.Remove(order);
+        await context.SaveChangesAsync();
 
         return true;
     }

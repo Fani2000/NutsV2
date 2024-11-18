@@ -4,10 +4,10 @@ using SDK.Models;
 namespace GraphQLServer.Mutations;
 
 [ExtendObjectType(OperationTypeNames.Mutation)]
-public class ProductMutations(YourNutsDbContext context)
+public class ProductMutations
 {
     [UseMutationConvention]
-    public async Task<Product> AddProduct(AddProductInput input)
+    public async Task<Product> AddProduct([Service] YourNutsDbContext context,AddProductInput input)
     {
         var product = new Product
         {
@@ -29,7 +29,7 @@ public class ProductMutations(YourNutsDbContext context)
     }
     
     [UseMutationConvention]
-    public async Task<Product> UpdateProduct(UpdateProductInput input)
+    public async Task<Product> UpdateProduct([Service] YourNutsDbContext context, UpdateProductInput input)
     {
         var product = await context.Products.FindAsync(input.ProductId);
         if (product == null)
@@ -52,7 +52,7 @@ public class ProductMutations(YourNutsDbContext context)
     }
     
     [UseMutationConvention]
-    public async Task<bool> DeleteProduct(int productId)
+    public async Task<bool> DeleteProduct([Service] YourNutsDbContext context, Guid productId)
     {
         var product = await context.Products.FindAsync(productId);
         if (product == null)

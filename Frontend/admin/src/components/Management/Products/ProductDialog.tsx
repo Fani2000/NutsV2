@@ -7,9 +7,11 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { useProductContext } from "../../../context/ProductContext";
+import {useAddProductMutation } from '../../../gql/graphql'
 
 export const ProductDialog = () => {
   const { isAddDialogVisible: isOpen, toggleAddDialog } = useProductContext();
+  const [addProduct, {data}] = useAddProductMutation();
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -38,9 +40,25 @@ export const ProductDialog = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle submit logic here (e.g., add product to context or call an API)
-    console.log("Product Details:", formValues);
+    // console.log("Product Details:", formValues);
+
+     await addProduct({
+      variables: {
+        input: {
+          name: formValues.name,
+          category: formValues.category,
+          price: Number(formValues.price), 
+          image: formValues.url,
+          stockQuantity: Number(formValues.stock), 
+          description: formValues.description
+        },
+      }
+    });
+    
+    console.log("Results: ", data)
+    
     handleClose();
   };
 

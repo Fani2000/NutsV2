@@ -6,15 +6,8 @@ namespace GraphQLServer.Mutations;
 [ExtendObjectType(OperationTypeNames.Mutation)]
 public class CustomerMutations
 {
-    private readonly YourNutsDbContext _context;
-
-    public CustomerMutations(YourNutsDbContext context)
-    {
-        _context = context;
-    }
-
     [UseMutationConvention]
-    public async Task<Customer> AddCustomer(AddCustomerInput input)
+    public async Task<Customer> AddCustomer([Service] YourNutsDbContext context,AddCustomerInput input)
     {
         var customer = new Customer
         {
@@ -30,16 +23,16 @@ public class CustomerMutations
             Basket = new Basket() // assume initialization for Basket, can be adjusted as necessary
         };
 
-        _context.Customers.Add(customer);
-        await _context.SaveChangesAsync();
+        context.Customers.Add(customer);
+        await context.SaveChangesAsync();
 
         return customer;
     }
 
     [UseMutationConvention]
-    public async Task<Customer> UpdateCustomer(UpdateCustomerInput input)
+    public async Task<Customer> UpdateCustomer([Service] YourNutsDbContext context,UpdateCustomerInput input)
     {
-        var customer = await _context.Customers.FindAsync(input.CustomerId);
+        var customer = await context.Customers.FindAsync(input.CustomerId);
         if (customer == null)
         {
             throw new Exception("Customer not found");
@@ -52,23 +45,23 @@ public class CustomerMutations
         customer.PhoneNumber = input.PhoneNumber ?? customer.PhoneNumber;
         customer.UpdatedAt = DateTime.UtcNow;
 
-        _context.Customers.Update(customer);
-        await _context.SaveChangesAsync();
+        context.Customers.Update(customer);
+        await context.SaveChangesAsync();
 
         return customer;
     }
 
     [UseMutationConvention]
-    public async Task<bool> DeleteCustomer(Guid customerId)
+    public async Task<bool> DeleteCustomer([Service] YourNutsDbContext context, Guid customerId)
     {
-        var customer = await _context.Customers.FindAsync(customerId);
+        var customer = await context.Customers.FindAsync(customerId);
         if (customer == null)
         {
             throw new Exception("Customer not found");
         }
 
-        _context.Customers.Remove(customer);
-        await _context.SaveChangesAsync();
+        context.Customers.Remove(customer);
+        await context.SaveChangesAsync();
 
         return true;
     }

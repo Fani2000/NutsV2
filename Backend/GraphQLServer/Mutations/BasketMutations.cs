@@ -6,15 +6,9 @@ namespace GraphQLServer.Mutations;
 [ExtendObjectType(OperationTypeNames.Mutation)]
 public class BasketMutations
 {
-    private readonly YourNutsDbContext _context;
-
-    public BasketMutations(YourNutsDbContext context)
-    {
-        _context = context;
-    }
 
     [UseMutationConvention]
-    public async Task<Basket> AddBasket(AddBasketInput input)
+    public async Task<Basket> AddBasket([Service] YourNutsDbContext _context, AddBasketInput input)
     {
         var basket = new Basket
         {
@@ -32,7 +26,7 @@ public class BasketMutations
     }
 
     [UseMutationConvention]
-    public async Task<Basket> UpdateBasket(UpdateBasketInput input)
+    public async Task<Basket> UpdateBasket([Service] YourNutsDbContext _context,UpdateBasketInput input)
     {
         var basket = await _context.Baskets.FindAsync(input.BasketId);
         if (basket == null)
@@ -64,7 +58,7 @@ public class BasketMutations
     }
 
     [UseMutationConvention]
-    public async Task<bool> DeleteBasket(Guid basketId)
+    public async Task<bool> DeleteBasket([Service] YourNutsDbContext _context,Guid basketId)
     {
         var basket = await _context.Baskets.FindAsync(basketId);
         if (basket == null)
