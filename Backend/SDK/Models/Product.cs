@@ -9,6 +9,8 @@ public class Product
     public int StockQuantity { get; set; }
     public string Category { get; set; }
     
+    public int NumberOfSold { get; set; }
+    
     public string Image{ get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

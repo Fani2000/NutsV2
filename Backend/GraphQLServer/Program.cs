@@ -1,10 +1,12 @@
 using GraphQLServer.Extensions;
+using Microsoft.EntityFrameworkCore;
 using SDK;
 using SDK.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<YourNutsDbContext>();
+builder.Services.AddDbContext<YourNutsDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
 
 builder.Services.AddHostedService<DataSeederHostedService>();
 

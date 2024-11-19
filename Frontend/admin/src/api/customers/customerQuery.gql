@@ -1,0 +1,8 @@
+query GetCustomer($name: String!){
+  customers (where: { name: { eq: $name}}) {
+    nodes {
+      customerId
+      name
+    }
+  }
+}

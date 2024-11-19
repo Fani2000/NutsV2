@@ -1,0 +1,39 @@
+﻿mutation AddOrder($input: AddOrderInput!) {
+    addOrder(input: $input) {
+        order {
+            createdAt
+            customerId
+            orderDate
+            orderId
+            status
+            totalAmount
+            updatedAt
+            customer {
+                name
+            }
+        }
+    }
+}
+
+mutation UpdateOrder($input: UpdateOrderInput!) {
+    updateOrder(input: $input) {
+        order {
+            createdAt
+            customerId
+            orderDate
+            orderId
+            status
+            totalAmount
+            updatedAt
+            customer {
+                name
+            }
+        }
+    }
+}
+
+mutation DeleteOrder($input: DeleteOrderInput!) {
+    deleteOrder(input: $input) {
+        boolean
+    }
+}

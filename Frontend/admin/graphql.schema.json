@@ -2680,7 +2680,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "UUID",
                 "ofType": null
               }
             },
@@ -5739,6 +5739,22 @@
             "deprecationReason": null
           },
           {
+            "name": "numberOfSold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "orderItems",
             "description": null,
             "args": [],
@@ -5937,6 +5953,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringOperationFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "numberOfSold",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntOperationFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -6164,6 +6192,22 @@
             "deprecationReason": null
           },
           {
+            "name": "numberOfSold",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "orderItems",
             "description": null,
             "type": {
@@ -6313,6 +6357,18 @@
           },
           {
             "name": "name",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortEnumType",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "numberOfSold",
             "description": null,
             "type": {
               "kind": "ENUM",

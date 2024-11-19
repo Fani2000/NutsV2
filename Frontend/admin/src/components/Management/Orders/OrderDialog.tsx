@@ -9,9 +9,17 @@ import {
 } from "@material-tailwind/react";
 import { order } from "../../../types/order";
 import { useOrderContext } from '../../../context/OrderContext';
+import { useAddOrderMutation, useGetCustomerQuery } from "../../../gql/graphql";
 
-export const OrderDialog = ()=> {
-    const {isAddOrderDialogVisible:open, toggleAddOrderDialog: handleOpen} = useOrderContext()
+export const OrderDialog = () => {
+    const {
+        isAddOrderDialogVisible: open,
+        toggleAddOrderDialog: handleOpen
+    } = useOrderContext();
+
+    const [addOrder] = useAddOrderMutation();
+    const [getCustomer] = useGetCustomerQuery();
+
     const [formValues, setFormValues] = useState<Partial<order>>({
         name: "",
         price: 0,
@@ -22,103 +30,83 @@ export const OrderDialog = ()=> {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormValues({...formValues, [name]: value});
+        setFormValues({ ...formValues, [name]: value });
     };
 
-    const handleSubmit = () => {
-        // Handle submit logic here
+    const handleSubmit = async () => {
         console.log("Form Values:", formValues);
+
+        try {
+            const { data } = await getCustomer({
+                variables: { name: formValues.customerName! }
+            });
+
+            if (data && data.customer) {
+                console.log("Customer: ", data.customer);
+
+                // const result = await addOrder({
+                //     variables: {
+                //         input: {
+                //             customerId: data.customer.id,
+                //             orderDate: formValues.invoiceDate!,
+                //             status: formValues.status!,
+                //             totalAmount: formValues.price!,
+                //         }
+                //     }
+                // });
+
+                // console.log("Order Result:", result);
+            } else {
+                console.error("Customer not found!");
+            }
+        } catch (error) {
+            console.error("Error during order submission:", error);
+        }
+
         handleOpen();
     };
 
     return (
-        <>
-            <Dialog placeholder={''} open={open} handler={handleOpen}>
-                <DialogHeader placeholder={''}>Create a new order</DialogHeader>
-                <DialogBody placeholder={''}>
-                    <form>
-                        <div className="my-3">
+        <Dialog placeholder={''} open={open} handler={handleOpen}>
+            <DialogHeader placeholder={''}>Create a new order</DialogHeader>
+            <DialogBody placeholder={''}>
+                <form>
+                    {[
+                        { type: "text", name: "name", label: "Product Name" },
+                        { type: "number", name: "price", label: "Price" },
+                        { type: "date", name: "invoiceDate", label: "Invoice Date" },
+                        { type: "text", name: "status", label: "Status" },
+                        { type: "text", name: "customerName", label: "Customer Name" }
+                    ].map(({ type, name, label }) => (
+                        <div key={name} className="my-3">
                             <Input
                                 placeholder={''}
-                                crossOrigin={''}
-                                type="text"
-                                name="name"
-                                label="Product Name"
-                                value={formValues.name}
+                                type={type}
+                                name={name}
+                                label={label}
+                                value={formValues[name as keyof typeof formValues]}
                                 onChange={handleChange}
                                 required
-                            />
-                        </div>
-                        <div className="my-3">
-                            <Input
-                                type="number"
-                                placeholder={''}
                                 crossOrigin={''}
-                                name="price"
-                                label="Price"
-                                value={formValues.price}
-                                onChange={handleChange}
-                                required
                             />
                         </div>
-                        <div className="my-3">
-                            <Input
-                                placeholder={''}
-                                crossOrigin={''}
-                                type="date"
-                                name="invoiceDate"
-                                label="Invoice Date"
-                                value={formValues.invoiceDate}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="my-3">
-                            <Input
-                                placeholder={''}
-                                crossOrigin={''}
-                                type="text"
-                                name="status"
-                                label="Status"
-                                value={formValues.status}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="my-3">
-                            <Input
-                                type="text"
-                                name="customerName"
-                                placeholder={''}
-                                crossOrigin={''}
-                                label="Customer Name"
-                                value={formValues.customerName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                    </form>
-                </DialogBody>
-                <DialogFooter placeholder={''}>
-                    <Button
-                        placeholder={''}
-                        variant="text"
-                        color="red"
-                        onClick={handleOpen}
-                        className="mr-1"
-                    >
-                        <span>Cancel</span>
-                    </Button>
-                    <Button
-                        placeholder={''}
-                        variant="gradient"
-                        color="green"
-                        onClick={handleSubmit}
-                    >
-                        <span>Confirm</span>
-                    </Button>
-                </DialogFooter>
-            </Dialog>
-        </>
+                    ))}
+                </form>
+            </DialogBody>
+            <DialogFooter
+                placeholder={''}
+            >
+                <Button
+                    placeholder={''}
+                    variant="text" color="red" onClick={handleOpen} className="mr-1">
+                    <span>Cancel</span>
+                </Button>
+                <Button
+                    placeholder={''}
+                    variant="gradient" color="green" onClick={handleSubmit}>
+                    <span>Confirm</span>
+                </Button>
+            </DialogFooter>
+        </Dialog>
     );
-}
+};

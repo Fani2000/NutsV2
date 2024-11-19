@@ -1,68 +1,44 @@
-import {  useEffect  } from "react";
+import { useEffect } from "react";
 import { useProductsQuery } from "../../gql/graphql";
 import { ProductDialog } from "../../components/Management/Products/ProductDialog";
 import { ProductTable } from "../../components/Management/Products/ProductTable";
-import  { type Product } from "../../types/product";
+import { type Product } from "../../types/product";
 import ProductOne from "../../images/product/product-01.png";
-import ProductTwo from "../../images/product/product-02.png";
-import ProductThree from "../../images/product/product-03.png";
-import ProductFour from "../../images/product/product-04.png";
-import {  useProductContext } from "../../context/ProductContext";
-
-const productData: Product[] = [
-  {
-    id: "2fdfdf",
-    image: ProductOne,
-    name: "Apple Watch Series 7",
-    category: "Electronics",
-    price: 296,
-    sold: 22,
-    profit: 45,
-  },
-  {
-    id: "2fdfdf",
-    image: ProductTwo,
-    name: "Macbook Pro M1",
-    category: "Electronics",
-    price: 546,
-    sold: 12,
-    profit: 125,
-  },
-  {
-    id: "2fdfdf",
-    image: ProductThree,
-    name: "Dell Inspiron 15",
-    category: "Electronics",
-    price: 443,
-    sold: 64,
-    profit: 247,
-  },
-  {
-    id: "2fdfdf",
-    image: ProductFour,
-    name: "HP Probook 450",
-    category: "Electronics",
-    price: 499,
-    sold: 72,
-    profit: 103,
-  },
-];
+import { useProductContext } from "../../context/ProductContext";
 
 const Product = () => {
   const { data } = useProductsQuery();
-  const context  = useProductContext()
+  const { initializeProducts } = useProductContext()!;
 
-  console.log(data)
+  const mapProducts = (nodes: any[]): Product[] => {
+    console.log(nodes)
+    return nodes.map(node => ({
+      id: node.productId,
+      image: node.image ?? ProductOne, 
+      name: node.name,
+      category: node.category,
+      price: node.price,
+      sold: node.numberOfSold,
+      profit: 0, 
+    }));
+  };
+
+  const handleInitializeProducts = () => {
+    if (data?.products?.nodes) {
+      const fetchedProducts: Product[] = mapProducts(data.products.nodes);
+      initializeProducts(fetchedProducts);
+    }
+  };
 
   useEffect(() => {
-    context?.initializeProducts(productData)
-  }, [context?.products])
+    handleInitializeProducts();
+  }, [data]);
 
   return (
-    <div className="flex flex-col gap-1">
-      <ProductDialog  />
-      <ProductTable  />
-    </div>
+      <div className="flex flex-col gap-1">
+        <ProductDialog />
+        <ProductTable />
+      </div>
   );
 };
 

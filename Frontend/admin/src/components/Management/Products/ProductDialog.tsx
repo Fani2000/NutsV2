@@ -10,8 +10,8 @@ import { useProductContext } from "../../../context/ProductContext";
 import {useAddProductMutation } from '../../../gql/graphql'
 
 export const ProductDialog = () => {
-  const { isAddDialogVisible: isOpen, toggleAddDialog } = useProductContext();
-  const [addProduct, {data}] = useAddProductMutation();
+  const { isAddDialogVisible: isOpen, toggleAddDialog, addProduct: AddProductToContext } = useProductContext();
+  const [addProduct, {}] = useAddProductMutation();
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -40,24 +40,37 @@ export const ProductDialog = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = async () => {
-    // Handle submit logic here (e.g., add product to context or call an API)
-    // console.log("Product Details:", formValues);
-
-     await addProduct({
+  const AddNewProduct = async ()=> {
+    const results = await addProduct({
       variables: {
         input: {
           name: formValues.name,
           category: formValues.category,
-          price: Number(formValues.price), 
+          price: Number(formValues.price),
           image: formValues.url,
-          stockQuantity: Number(formValues.stock), 
+          stockQuantity: Number(formValues.stock),
           description: formValues.description
         },
       }
     });
+    return results;
+    // TODO: Handle Errors here
+  }
+  
+  const handleSubmit = async () => {
+    const results = await AddNewProduct()
     
-    console.log("Results: ", data)
+     if(!results.errors) {
+       AddProductToContext({
+         ...formValues,
+         id: results.data!.addProduct.product!.productId,
+         image: results.data!.addProduct.product!.image,
+         price: Number(results.data!.addProduct.product!.price),
+         // sold: results.data!.addProduct.product.!,
+         sold: 0,
+         profit: 0
+       })
+     }
     
     handleClose();
   };

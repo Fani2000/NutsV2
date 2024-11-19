@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SDK.Context;
@@ -11,9 +12,11 @@ using SDK.Context;
 namespace SDK.Migrations
 {
     [DbContext(typeof(YourNutsDbContext))]
-    partial class YourNutsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241119201453_Added NumberOfSold")]
+    partial class AddedNumberOfSold
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

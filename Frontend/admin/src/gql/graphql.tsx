@@ -294,7 +294,7 @@ export type DeleteOrderPayload = {
 };
 
 export type DeleteProductInput = {
-  productId: Scalars['Int']['input'];
+  productId: Scalars['UUID']['input'];
 };
 
 export type DeleteProductPayload = {
@@ -635,6 +635,7 @@ export type Product = {
   discounts: Array<Discount>;
   image: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  numberOfSold: Scalars['Int']['output'];
   orderItems: Array<OrderItem>;
   price: Scalars['Decimal']['output'];
   productId: Scalars['UUID']['output'];
@@ -651,6 +652,7 @@ export type ProductFilterInput = {
   discounts?: InputMaybe<ListFilterInputTypeOfDiscountFilterInput>;
   image?: InputMaybe<StringOperationFilterInput>;
   name?: InputMaybe<StringOperationFilterInput>;
+  numberOfSold?: InputMaybe<IntOperationFilterInput>;
   or?: InputMaybe<Array<ProductFilterInput>>;
   orderItems?: InputMaybe<ListFilterInputTypeOfOrderItemFilterInput>;
   price?: InputMaybe<DecimalOperationFilterInput>;
@@ -667,6 +669,7 @@ export type ProductInput = {
   discounts: Array<DiscountInput>;
   image: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  numberOfSold: Scalars['Int']['input'];
   orderItems: Array<OrderItemInput>;
   price: Scalars['Decimal']['input'];
   productId: Scalars['UUID']['input'];
@@ -680,6 +683,7 @@ export type ProductSortInput = {
   description?: InputMaybe<SortEnumType>;
   image?: InputMaybe<SortEnumType>;
   name?: InputMaybe<SortEnumType>;
+  numberOfSold?: InputMaybe<SortEnumType>;
   price?: InputMaybe<SortEnumType>;
   productId?: InputMaybe<SortEnumType>;
   stockQuantity?: InputMaybe<SortEnumType>;
@@ -863,6 +867,27 @@ export type GetOrdersApiQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetOrdersApiQuery = { __typename?: 'Query', orders?: { __typename?: 'OrdersConnection', nodes?: Array<{ __typename?: 'Order', orderDate: any, orderId: any, status: string, totalAmount: any, updatedAt: any, orderItems: Array<{ __typename?: 'OrderItem', product: { __typename?: 'Product', name: string } }>, customer: { __typename?: 'Customer', name: string } }> | null } | null };
 
+export type AddOrderMutationVariables = Exact<{
+  input: AddOrderInput;
+}>;
+
+
+export type AddOrderMutation = { __typename?: 'Mutation', addOrder: { __typename?: 'AddOrderPayload', order?: { __typename?: 'Order', createdAt: any, customerId: any, orderDate: any, orderId: any, status: string, totalAmount: any, updatedAt: any, customer: { __typename?: 'Customer', name: string } } | null } };
+
+export type UpdateOrderMutationVariables = Exact<{
+  input: UpdateOrderInput;
+}>;
+
+
+export type UpdateOrderMutation = { __typename?: 'Mutation', updateOrder: { __typename?: 'UpdateOrderPayload', order?: { __typename?: 'Order', createdAt: any, customerId: any, orderDate: any, orderId: any, status: string, totalAmount: any, updatedAt: any, customer: { __typename?: 'Customer', name: string } } | null } };
+
+export type DeleteOrderMutationVariables = Exact<{
+  input: DeleteOrderInput;
+}>;
+
+
+export type DeleteOrderMutation = { __typename?: 'Mutation', deleteOrder: { __typename?: 'DeleteOrderPayload', boolean?: boolean | null } };
+
 export type AddProductMutationVariables = Exact<{
   input: AddProductInput;
 }>;
@@ -887,7 +912,14 @@ export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct: { 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductsConnection', nodes?: Array<{ __typename?: 'Product', category: string, createdAt: any, description: string, image: string, name: string, price: any, productId: any, stockQuantity: number, updatedAt: any }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, edges?: Array<{ __typename?: 'ProductsEdge', cursor: string }> | null } | null };
+export type ProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductsConnection', nodes?: Array<{ __typename?: 'Product', category: string, createdAt: any, description: string, image: string, name: string, price: any, numberOfSold: number, productId: any, stockQuantity: number, updatedAt: any }> | null, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, edges?: Array<{ __typename?: 'ProductsEdge', cursor: string }> | null } | null };
+
+export type GetCustomerQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type GetCustomerQuery = { __typename?: 'Query', customers?: { __typename?: 'CustomersConnection', nodes?: Array<{ __typename?: 'Customer', customerId: any, name: string }> | null } | null };
 
 
 export const OrdersDocument = gql`
@@ -999,6 +1031,127 @@ export type GetOrdersApiQueryHookResult = ReturnType<typeof useGetOrdersApiQuery
 export type GetOrdersApiLazyQueryHookResult = ReturnType<typeof useGetOrdersApiLazyQuery>;
 export type GetOrdersApiSuspenseQueryHookResult = ReturnType<typeof useGetOrdersApiSuspenseQuery>;
 export type GetOrdersApiQueryResult = Apollo.QueryResult<GetOrdersApiQuery, GetOrdersApiQueryVariables>;
+export const AddOrderDocument = gql`
+    mutation AddOrder($input: AddOrderInput!) {
+  addOrder(input: $input) {
+    order {
+      createdAt
+      customerId
+      orderDate
+      orderId
+      status
+      totalAmount
+      updatedAt
+      customer {
+        name
+      }
+    }
+  }
+}
+    `;
+export type AddOrderMutationFn = Apollo.MutationFunction<AddOrderMutation, AddOrderMutationVariables>;
+
+/**
+ * __useAddOrderMutation__
+ *
+ * To run a mutation, you first call `useAddOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addOrderMutation, { data, loading, error }] = useAddOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddOrderMutation(baseOptions?: Apollo.MutationHookOptions<AddOrderMutation, AddOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddOrderMutation, AddOrderMutationVariables>(AddOrderDocument, options);
+      }
+export type AddOrderMutationHookResult = ReturnType<typeof useAddOrderMutation>;
+export type AddOrderMutationResult = Apollo.MutationResult<AddOrderMutation>;
+export type AddOrderMutationOptions = Apollo.BaseMutationOptions<AddOrderMutation, AddOrderMutationVariables>;
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($input: UpdateOrderInput!) {
+  updateOrder(input: $input) {
+    order {
+      createdAt
+      customerId
+      orderDate
+      orderId
+      status
+      totalAmount
+      updatedAt
+      customer {
+        name
+      }
+    }
+  }
+}
+    `;
+export type UpdateOrderMutationFn = Apollo.MutationFunction<UpdateOrderMutation, UpdateOrderMutationVariables>;
+
+/**
+ * __useUpdateOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderMutation, { data, loading, error }] = useUpdateOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderMutation, UpdateOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument, options);
+      }
+export type UpdateOrderMutationHookResult = ReturnType<typeof useUpdateOrderMutation>;
+export type UpdateOrderMutationResult = Apollo.MutationResult<UpdateOrderMutation>;
+export type UpdateOrderMutationOptions = Apollo.BaseMutationOptions<UpdateOrderMutation, UpdateOrderMutationVariables>;
+export const DeleteOrderDocument = gql`
+    mutation DeleteOrder($input: DeleteOrderInput!) {
+  deleteOrder(input: $input) {
+    boolean
+  }
+}
+    `;
+export type DeleteOrderMutationFn = Apollo.MutationFunction<DeleteOrderMutation, DeleteOrderMutationVariables>;
+
+/**
+ * __useDeleteOrderMutation__
+ *
+ * To run a mutation, you first call `useDeleteOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteOrderMutation, { data, loading, error }] = useDeleteOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteOrderMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOrderMutation, DeleteOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteOrderMutation, DeleteOrderMutationVariables>(DeleteOrderDocument, options);
+      }
+export type DeleteOrderMutationHookResult = ReturnType<typeof useDeleteOrderMutation>;
+export type DeleteOrderMutationResult = Apollo.MutationResult<DeleteOrderMutation>;
+export type DeleteOrderMutationOptions = Apollo.BaseMutationOptions<DeleteOrderMutation, DeleteOrderMutationVariables>;
 export const AddProductDocument = gql`
     mutation AddProduct($input: AddProductInput!) {
   addProduct(input: $input) {
@@ -1128,6 +1281,7 @@ export const ProductsDocument = gql`
       image
       name
       price
+      numberOfSold
       productId
       stockQuantity
       updatedAt
@@ -1176,3 +1330,46 @@ export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsSuspenseQueryHookResult = ReturnType<typeof useProductsSuspenseQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const GetCustomerDocument = gql`
+    query GetCustomer($name: String!) {
+  customers(where: {name: {eq: $name}}) {
+    nodes {
+      customerId
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCustomerQuery__
+ *
+ * To run a query within a React component, call `useGetCustomerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCustomerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCustomerQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetCustomerQuery(baseOptions: Apollo.QueryHookOptions<GetCustomerQuery, GetCustomerQueryVariables> & ({ variables: GetCustomerQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCustomerQuery, GetCustomerQueryVariables>(GetCustomerDocument, options);
+      }
+export function useGetCustomerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCustomerQuery, GetCustomerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCustomerQuery, GetCustomerQueryVariables>(GetCustomerDocument, options);
+        }
+export function useGetCustomerSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCustomerQuery, GetCustomerQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCustomerQuery, GetCustomerQueryVariables>(GetCustomerDocument, options);
+        }
+export type GetCustomerQueryHookResult = ReturnType<typeof useGetCustomerQuery>;
+export type GetCustomerLazyQueryHookResult = ReturnType<typeof useGetCustomerLazyQuery>;
+export type GetCustomerSuspenseQueryHookResult = ReturnType<typeof useGetCustomerSuspenseQuery>;
+export type GetCustomerQueryResult = Apollo.QueryResult<GetCustomerQuery, GetCustomerQueryVariables>;
