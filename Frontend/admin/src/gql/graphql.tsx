@@ -45,7 +45,6 @@ export type AddCustomerPayload = {
 export type AddOrderInput = {
   customerId: Scalars['UUID']['input'];
   orderDate: Scalars['DateTime']['input'];
-  orderItems: Array<OrderItemInput>;
   status: Scalars['String']['input'];
   totalAmount: Scalars['Decimal']['input'];
 };
@@ -817,7 +816,6 @@ export type UpdateOrderInput = {
   customerId?: InputMaybe<Scalars['UUID']['input']>;
   orderDate?: InputMaybe<Scalars['DateTime']['input']>;
   orderId: Scalars['UUID']['input'];
-  orderItems: Array<OrderItemInput>;
   status: Scalars['String']['input'];
   totalAmount?: InputMaybe<Scalars['Decimal']['input']>;
 };

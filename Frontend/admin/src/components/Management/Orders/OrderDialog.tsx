@@ -12,14 +12,6 @@ import { useOrderContext } from '../../../context/OrderContext';
 import { useAddOrderMutation, useGetCustomerQuery } from "../../../gql/graphql";
 
 export const OrderDialog = () => {
-    const {
-        isAddOrderDialogVisible: open,
-        toggleAddOrderDialog: handleOpen
-    } = useOrderContext();
-
-    const [addOrder] = useAddOrderMutation();
-    const [getCustomer] = useGetCustomerQuery();
-
     const [formValues, setFormValues] = useState<Partial<order>>({
         name: "",
         price: 0,
@@ -27,6 +19,18 @@ export const OrderDialog = () => {
         status: "",
         customerName: ""
     });
+
+    // prettier-ignore
+    const { isAddOrderDialogVisible: open, toggleAddOrderDialog: handleOpen} = useOrderContext();
+
+    const [addOrder] = useAddOrderMutation();
+
+    const {data: customerInfo} = useGetCustomerQuery({
+        variables: {
+            name: formValues!.customerName!
+        }
+    })
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -37,25 +41,21 @@ export const OrderDialog = () => {
         console.log("Form Values:", formValues);
 
         try {
-            const { data } = await getCustomer({
-                variables: { name: formValues.customerName! }
-            });
+            if (customerInfo) {
+                console.log("Customer: ", customerInfo);
 
-            if (data && data.customer) {
-                console.log("Customer: ", data.customer);
+                const result = await addOrder({
+                    variables: {
+                        input: {
+                            customerId: customerInfo.customers?.nodes![0].customerId,
+                            orderDate: new Date(formValues.invoiceDate!),
+                            status: formValues.status!,
+                            totalAmount: formValues.price!,
+                        }
+                    }
+                });
 
-                // const result = await addOrder({
-                //     variables: {
-                //         input: {
-                //             customerId: data.customer.id,
-                //             orderDate: formValues.invoiceDate!,
-                //             status: formValues.status!,
-                //             totalAmount: formValues.price!,
-                //         }
-                //     }
-                // });
-
-                // console.log("Order Result:", result);
+                console.log("Order Result:", result);
             } else {
                 console.error("Customer not found!");
             }
