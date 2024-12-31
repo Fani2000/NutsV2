@@ -17,8 +17,7 @@ public class OrderMutations
             Status = input.Status,
             TotalAmount = input.TotalAmount,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
-            OrderItems = input.OrderItems // assume that input.OrderItems is a collection of OrderItem
+            UpdatedAt = DateTime.UtcNow
         };
 
         context.Orders.Add(order);
@@ -40,8 +39,6 @@ public class OrderMutations
         order.OrderDate = input.OrderDate ?? order.OrderDate;
         order.Status = input.Status ?? order.Status;
         order.TotalAmount = input.TotalAmount ?? order.TotalAmount;
-        // Assuming OrderItems has to be fully replaced, otherwise implement updating logic.
-        order.OrderItems = input.OrderItems ?? order.OrderItems;
         order.UpdatedAt = DateTime.UtcNow;
 
         context.Orders.Update(order);
@@ -72,7 +69,6 @@ public class AddOrderInput
     public DateTime OrderDate { get; set; }
     public string Status { get; set; }
     public decimal TotalAmount { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } // assume OrderItem class exists
 }
 
 public class UpdateOrderInput
@@ -82,5 +78,4 @@ public class UpdateOrderInput
     public DateTime? OrderDate { get; set; }
     public string Status { get; set; }
     public decimal? TotalAmount { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } // assume OrderItem class exists
 }

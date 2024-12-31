@@ -21,7 +21,7 @@ const Orders = () => {
     data?.orders?.nodes?.map((x) => {
       const o:order = {
         id: x.orderId,
-        name: x.orderItems[0].product.name,
+        name: x.orderItems[0]?.product.name ?? '',
         price: x.totalAmount,
         invoiceDate: x.orderDate.split("T")[0],
         status: x.status ?? "",

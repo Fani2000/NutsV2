@@ -131,6 +131,8 @@ export const OrderTable = () => {
                       <h5 className="font-medium text-black dark:text-white">
                         {name}
                       </h5>
+                    </td>
+                    <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                       <p className="text-sm">R {price.toFixed(2)}</p>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
